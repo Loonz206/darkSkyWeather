@@ -1,0 +1,18 @@
+//Global Styles, ( if you find something being repeated think globally )-->
+@import 'normalize.scss';
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'typography.scss';
+@import 'forms.scss';
+
+//Mobile First never shoe horn again.
+//Use mobile first design, use responsive mixin to define changes in UI.
+
+
+//Components Go here, in order.. can't fight the cascade. Wrap elements in each whatever with a containing class-->>
+@import '../components/Nav/Nav';
+@import '../components/Footer/Footer';
+//Containers Go here-->>
+@import '../containers/App';
+@import '../containers/Home/Home';
+@import '../containers/NotFound/NotFound';
