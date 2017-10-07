@@ -1,8 +1,9 @@
 import React, { Component} from 'react';
+import Loader from '../../components/Loader/Loader';
 
 class Weather extends Component {
     constructor(){
-        super()
+        super();
         this.state = {
             summary: "",
             forecast:  [],
@@ -31,8 +32,11 @@ class Weather extends Component {
         this.getWeather();
     }
     render (){
+        const loading = this.state.loading ? <Loader /> : "";
         return (
-            <div>{this.state}</div>
+            <div>
+                { loading }
+            </div>
         )
     }
 }
