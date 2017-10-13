@@ -2,7 +2,7 @@ const dotenv = require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
-const port = 3000;
+const port = 3001;
 const weather = process.env.DARKSKY;
 
 
@@ -16,9 +16,9 @@ var options = {
         //'^/api/remove/path' : '/path'           // remove base path
     },
     router: {
-        // when request.headers.host == 'dev.localhost:3000',
+        // when request.headers.host == 'dev.localhost:3001',
         // override target 'http://www.example.org' to 'http://localhost:8000'
-        'dev.localhost:3000' : 'http://localhost:8000'
+        'dev.localhost:3001' : 'http://localhost:8000'
     }
 };
 
