@@ -23,7 +23,7 @@ class Weather extends Component {
                     weather: {
                         current: data.currently.temperature,
                         currentIcon: data.currently.icon,
-                        summary: data.hourly.summary,
+                        summary: data.currently.summary,
                         daily: [days[1], days[2], days[3], days[4], days[5]]
                     }
                 });
@@ -36,10 +36,11 @@ class Weather extends Component {
         if (this.state.weather !== null) {
             //Get the weather and round out the decimals and display it to the guest
             return <div className="weather-temp-container">
-                <h1>Today</h1>
-                <Day weather={this.state.weather.currentIcon}/>
-                <div className="weather-temp">{ Math.round(this.state.weather.current) + '˚' }</div>
-            </div>;
+                        <h1>Today's Forecast</h1>
+                        <Day weather={this.state.weather}/>
+                        <p className="weather-temp">{ Math.round(this.state.weather.current) + '˚' }</p>
+                        <p>{ this.state.weather.summary }</p>
+                    </div>;
         } else {
             //Return the loader
             return <Loader />;
@@ -54,11 +55,7 @@ class Weather extends Component {
         return (
             <div>
                 <main className="grid-container">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    { this.getTodayForecast() }
                 </main>
             </div>
         )
