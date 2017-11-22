@@ -1,13 +1,5 @@
-.weather-temp-container {
+.today-forecast-container {
   h1 {
-    color: $primaryText;
-    text-align: center;
-  }
-  .weather-icon-container {
-    width: 100px;
-    margin: auto;
-  }
-  .weather-temp, p {
     text-align: center;
   }
 }

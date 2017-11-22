@@ -5,15 +5,63 @@ import Day from '../../components/Day/Day';
 class Weather extends Component {
     constructor(){
         super();
-        this.state = { weather: null };
+        this.state = {
+            weather: null,
+            location: null
+        };
         this.getWeather = this.getWeather.bind(this);
+        this.getPosition = this.getPosition.bind(this);
     }
 
+    componentWillMount(){
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.getWeather(position.coords.latitude, position.coords.longitude);
+                },
 
+                () => {
+                    this.setState({
+                        error: new Error('The Geolocation service failed'),
+                    });
+                }
+            );
+        } else {
+            this.setState({
+                error: new Error('Your browser does not support geolocation'),
+            });
+        }
+    }
 
-    getWeather() {
-        const url = 'api/weather/47.6227156713256,-122.360553979498';
+    getPosition() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
 
+        function success(pos){
+            const crd = pos.coords;
+            console.log('Your current position is:');
+            console.log('Lat:', crd.latitude);
+            console.log('Long:', crd.longitude);
+            console.log('More or less ' + crd.accuracy + ' meters');
+        }
+
+        function error(err) {
+            console.log('error', err);
+        }
+
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        } else {
+            console.log('Geolocation not available!');
+        }
+    }
+
+    getWeather(latitude, longitude) {
+        const url = 'api/weather/' + latitude + ',' + longitude;
         return fetch(url)
             .then((response) => response.json())
             .then((data) => {
@@ -35,26 +83,21 @@ class Weather extends Component {
     getTodayForecast() {
         if (this.state.weather !== null) {
             //Get the weather and round out the decimals and display it to the guest
-            return <div className="weather-temp-container">
+            return <div className="today-forecast-container">
                         <h1>Today's Forecast</h1>
-                        <Day weather={this.state.weather}/>
-                        <p className="weather-temp">{ Math.round(this.state.weather.current) + '˚' }</p>
-                        <p>{ this.state.weather.summary }</p>
-                    </div>;
+                        <Day weather={this.state.weather} />;
+                  </div>
         } else {
             //Return the loader
             return <Loader />;
         }
     }
 
-    componentWillMount(){
-        this.getWeather();
-    }
-
     render (){
         return (
             <div>
                 <main className="grid-container">
+                    { this.getPosition() }
                     { this.getTodayForecast() }
                 </main>
             </div>

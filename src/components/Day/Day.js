@@ -11,14 +11,23 @@ import sun from '../../assets/sun.svg';
 import wind from '../../assets/wind.svg';
 
 class Day extends Component {
+    constructor(){
+        super();
+        this.state = {};
+        this.getCelsius = this.getCelsius.bind(this);
+    }
 
     displayDate(){
         const d = new Date();
-        return this.dayOfWeek(d.getDay() + this.props.weather.num);
+        return this.dayOfWeek(d.getDay());
     }
 
     dayOfWeek(day) {
-        return ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'][day%7];
+        return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][day%7];
+    }
+
+    getCelsius(temp){
+        return Math.round((temp - 32) * 5 / 9) + '˚C';
     }
 
     getIcon() {
@@ -54,10 +63,15 @@ class Day extends Component {
     render(){
         return (
             <div className="weather-icon-container">
-                { this.getIcon() }
-                <p>{ this.displayDate() }</p>
+                <figure>
+                    { this.getIcon() }
+                </figure>
+                <p className="lead">Temperature: { Math.round(this.props.weather.current) + '˚F' }/
+                    {this.getCelsius(this.props.weather.current)}</p>
+                <p>Day: { this.displayDate() }</p>
+                <p>Summary: { this.props.weather.summary}</p>
             </div>
-    )
+        )
     }
 }
 
